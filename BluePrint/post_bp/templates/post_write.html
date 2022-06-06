@@ -1,0 +1,86 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="{{url_for('post.static',filename='./css/index.css')}}">
+    <script type="text/javascript" src="{{url_for('post.static',filename='./js/vue3.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('post.static',filename='./js/axios.js')}}"></script>
+</head>
+
+<body>
+    <div>
+        <!-- main -->
+
+        <div id="main">
+            <!-- head -->
+            <div id="head" class="flex_col">
+                <!-- title -->
+                <div id="title" class="flex_row">
+                    <span @click="get_blog">Title</span>
+                    <input v-model="title">
+                </div>
+
+                <!-- / -->
+                <!-- clickline -->
+                <div id="tags_line" class="flex_row margin_left_3">
+                    <span>Tags</span>
+                    <input v-model="tags">
+                </div>
+                <div id="date" class="flex_row margin_left_3">
+                    <span>Date</span>
+                    <input v-model="date">
+                </div>
+                <button @click="upload">OK</button>
+                <!-- / -->
+            </div>
+            <!-- <div id="splitline" class="flex_col">
+        <span>————————————————————————————</span>
+    </div> -->
+            <!-- / -->
+            <!-- body -->
+            <div id="body" class="flex_col">
+                <!-- title_list -->
+                <div id="post_info" class="flex_row margin_left_3">
+                    <span>Content</span>
+                    <textarea v-model="content"></textarea>
+                </div>
+                <!-- / -->
+                <!-- page_index -->
+                <div id="page_index" class="flex_row">
+                    <!-- <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>4</button>
+            <button>5</button>
+            <button>6</button> -->
+                </div>
+                <!-- / -->
+            </div>
+            <!-- / -->
+        </div>
+        <!-- / -->
+
+        <!-- bottom -->
+        <div id="bottom" class="flex_col">
+            <!-- log_info -->
+            <div class="flex_row">
+                <span>博客共xx篇xxx字</span>
+                <span>访问量xx</span>
+                <span id="post_id" style="display: none;" name="{{ post_id }}"></span>
+            </div>
+            <!-- / -->
+            <!-- beian -->
+            <div class="flex_col">
+                <span>Powered by Flask</span>
+                <span>ICP备20004042号-1</span>
+            </div>
+            <!-- / -->
+        </div>
+    </div>
+    <!-- / -->
+
+    <script type="text/javascript" src="{{url_for('post.static',filename='./js/write.js')}}">
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,100 @@
+<html>
+    <head>
+    <link rel="stylesheet" href="{{url_for('index.static',filename='./css/index.css')}}">
+    <script type="text/javascript" src="{{url_for('index.static',filename='./js/vue3.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('index.static',filename='./js/axios.js')}}"></script>
+    </head>
+
+<body>
+<div>
+<!-- main -->
+
+<div id="main">
+    <!-- head -->
+    <div id="head" class="flex_col">
+        <!-- title -->
+        <div id="title" class="flex_col">
+            <h1> Code and Draw.</h1>
+            <!-- <h3>______________</h3> -->
+        </div>
+        <!-- / -->
+        <!-- clickline -->
+        <div id="clickline" class="flex_row">
+            <button>标签</button>
+            <button>搜索</button>
+            <button>About</button>
+        </div>
+        <!-- / -->
+    </div>
+    <!-- / -->
+    <!-- body -->
+    <div id="body" class="flex_col">
+        <!-- title_list -->
+        <div id="title_list" class="flex_col">
+            <div class="flex_col">
+            <span>2022</span>
+            <span>_________</span>
+            </div>
+            <div class="title_box flex_row" v-for="(value,key,index) in title_list" @click="open_blogpage" :value="value.id">
+                <span class="margin_left_10 margin_right_0 date_box" >${ value.date }</span>
+                <div class="flex_row margin_right_0 margin_left_3">
+                   <span class="width23">
+                   <img src="" alt="">
+                </div>
+                <div class="title_text_box margin_left_3" :value="value.id">
+                    <span name="click" :value="value.id">${value.title}</span>
+                </div>
+                <div class="flex_row margin_left_0 margin_right_0 tag_box">
+                    <div class="flex_row">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- / -->
+        <!-- page_index -->
+        <!-- <div id="page_index" class="flex_row">
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+        </div> -->
+        <div id="page_index" class="flex_row">
+            <div id="pageindex_line" class="flex_row">
+                <button class="flex margin_2 btn" name="start_page" :page="1"  @click="get_blog_list($event)">1</button>
+                <span v-if="start>2">···</span>
+                <button class="flex margin_2 btn" name="mid_page" v-for="item of pagelist" :page="item" @click="get_blog_list($event)">${ item }</button>
+                <span v-if="end<pagesum-1">···</span>
+                <button class="flex margin_2 btn" name="end_page" :page="pagesum" v-if="pagesum >= 2" @click="get_blog_list($event)">${ pagesum }</button>
+            </div>
+        </div>
+        <!-- / -->
+    </div>
+    <!-- / -->
+</div>
+<!-- / -->
+
+<!-- bottom -->
+<div id="bottom" class="flex_col">
+    <!-- log_info -->
+    <div class="flex_row">
+        <span>博客共xx篇xxx字</span>
+        <span>访问量xx</span>
+    </div>
+    <!-- / -->
+    <!-- beian -->
+    <div class="flex_col">
+        <span>Powered by Flask</span>
+        <span>ICP备20004042号-1</span>
+    </div>
+    <!-- / -->
+</div>
+</div>
+<!-- / -->
+
+<script type="text/javascript" src="{{url_for('index.static',filename='./js/index.js')}}"></script>
+</body>
+</html>
