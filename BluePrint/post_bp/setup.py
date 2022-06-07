@@ -12,9 +12,10 @@ def create_db():
                 title  TEXT NOT NULL,
                 tags  TEXT NOT NULL,
                 date  TEXT NOT NULL,
-                view  INT NOT NULL
+                show  BOOLEAN DEFAULT 1
             )
             """
+
             cur.execute(SQL_INFO)
             SQL_CONTENT = """CREATE TABLE IF NOT EXISTS content(
                 id TEXT PRIMARY KEY NOT NULL,
@@ -22,6 +23,15 @@ def create_db():
             )
             """
             cur.execute(SQL_CONTENT)
+
+            SQL_CONTENT = """CREATE TABLE IF NOT EXISTS ip(
+                id TEXT PRIMARY KEY NOT NULL,
+                ip TEXT NOT NULL  DEFAULT '',
+                view INT DEFAULT 0
+            )
+            """
+            cur.execute(SQL_CONTENT)
+
             conn.commit()
     except Exception as e:
         raise(e)

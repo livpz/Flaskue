@@ -14,14 +14,14 @@
     <div id="head" class="flex_col">
         <!-- title -->
         <div id="title" class="flex_col">
-            <h1> Code and Draw.</h1>
+            <h1 @click="count_to_write"> Code and Draw.</h1>
             <!-- <h3>______________</h3> -->
         </div>
         <!-- / -->
         <!-- clickline -->
         <div id="clickline" class="flex_row">
             <button>标签</button>
-            <button>搜索</button>
+            <button @click="logout">搜索</button>
             <button>About</button>
         </div>
         <!-- / -->
@@ -35,33 +35,27 @@
             <span>2022</span>
             <span>_________</span>
             </div>
-            <div class="title_box flex_row" v-for="(value,key,index) in title_list" @click="open_blogpage" :value="value.id">
-                <span class="margin_left_10 margin_right_0 date_box" >${ value.date }</span>
+            <div class="title_box flex_row" v-for="item of title_list" @click="open_blogpage" :value="item.id">
+                <span class="margin_left_10 margin_right_0 date_box" >${ item.date }</span>
                 <div class="flex_row margin_right_0 margin_left_3">
                    <span class="width23">
-                   <img src="" alt="">
+                   <img :src="item.hot" alt="">
                 </div>
-                <div class="title_text_box margin_left_3" :value="value.id">
-                    <span name="click" :value="value.id">${value.title}</span>
+                <div class="title_text_box margin_left_3" :value="item.id">
+                    <span name="click" :value="item.id">${item.title}</span>
                 </div>
                 <div class="flex_row margin_left_0 margin_right_0 tag_box">
-                    <div class="flex_row">
-                        <img src="" alt="">
+                    <div class="flex_row" >
+                        <div class="flex_row" v-for="(value2, key2, index2) of item.tags">
+                            <img  v-if="value2.icon" :src="value2.icon" alt="">
+                            <span v-if="value2.text">${value2.text}</span>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
         <!-- / -->
         <!-- page_index -->
-        <!-- <div id="page_index" class="flex_row">
-            <button>1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>4</button>
-            <button>5</button>
-            <button>6</button>
-        </div> -->
         <div id="page_index" class="flex_row">
             <div id="pageindex_line" class="flex_row">
                 <button class="flex margin_2 btn" name="start_page" :page="1"  @click="get_blog_list($event)">1</button>
@@ -78,7 +72,7 @@
 <!-- / -->
 
 <!-- bottom -->
-<div id="bottom" class="flex_col">
+<div id="bottom" class="flex_col" >
     <!-- log_info -->
     <div class="flex_row">
         <span>博客共xx篇xxx字</span>
@@ -95,6 +89,6 @@
 </div>
 <!-- / -->
 
-<script type="text/javascript" src="{{url_for('index.static',filename='./js/index.js')}}"></script>
+<script type="text/javascript" src="{{url_for('index.static',filename='./js/index.js')}}" ></script>
 </body>
 </html>

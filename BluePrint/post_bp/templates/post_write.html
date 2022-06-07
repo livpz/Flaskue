@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="{{url_for('post.static',filename='./css/index.css')}}">
+    <link rel="stylesheet" href="{{url_for('post.static',filename='./css/write.css')}}">
     <script type="text/javascript" src="{{url_for('post.static',filename='./js/vue3.js')}}"></script>
     <script type="text/javascript" src="{{url_for('post.static',filename='./js/axios.js')}}"></script>
 </head>
@@ -9,16 +9,14 @@
 <body>
     <div>
         <!-- main -->
-
-        <div id="main">
+        <div id="main"  >
             <!-- head -->
-            <div id="head" class="flex_col">
+            <div id="head" class="flex_col" @click="toMD">
                 <!-- title -->
                 <div id="title" class="flex_row">
                     <span @click="get_blog">Title</span>
                     <input v-model="title">
                 </div>
-
                 <!-- / -->
                 <!-- clickline -->
                 <div id="tags_line" class="flex_row margin_left_3">
@@ -29,7 +27,11 @@
                     <span>Date</span>
                     <input v-model="date">
                 </div>
-                <button @click="upload">OK</button>
+                <div id="date" class="flex_row margin_left_3">
+                    <span>可见:</span>
+                    <button id="btn_post" @click="change_show" v-model="show">${show}</button>
+                </div>
+                <button id="btn_post" @click="upload">发布</button>
                 <!-- / -->
             </div>
             <!-- <div id="splitline" class="flex_col">
@@ -37,11 +39,11 @@
     </div> -->
             <!-- / -->
             <!-- body -->
-            <div id="body" class="flex_col">
+            <div id="body" class="flex_col" @click="toRaw">
                 <!-- title_list -->
-                <div id="post_info" class="flex_row margin_left_3">
-                    <span>Content</span>
-                    <textarea v-model="content"></textarea>
+                <div id="post_info" class="flex_row margin_left_3" >
+                    <textarea id="input_area" v-model="content"  v-bind:style="{'display' : contentActive}"></textarea>
+                    <div id="md_content" v-html="md_content"  v-bind:style="{'display' : mdActive}"></div>
                 </div>
                 <!-- / -->
                 <!-- page_index -->

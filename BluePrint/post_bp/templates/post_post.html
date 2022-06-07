@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="{{url_for('post.static',filename='./css/index.css')}}">
+    <link rel="stylesheet" href="{{url_for('post.static',filename='./css/post.css')}}">
     <script type="text/javascript" src="{{url_for('post.static',filename='./js/vue3.js')}}"></script>
     <script type="text/javascript" src="{{url_for('post.static',filename='./js/axios.js')}}"></script>
 </head>
@@ -12,9 +12,9 @@
 
         <div id="main">
             <!-- head -->
-            <div id="head" class="flex_col">
+            <div id="head" class="flex_col" @click="click_head">
                 <!-- title -->
-                <div id="title" class="flex_col">
+                <div id="title" class="flex_col margin_left_3">
                     <h2 class="flex_col"> ${title}</h2>
                 </div>
 
@@ -29,9 +29,8 @@
                     </div>
                 </div>
                 <div id="view" class="flex_row margin_left_3">
-                    <span>${view_count}</span>
+                    <span>浏览次数 ${view_count}</span>
                 </div>
-                <button v-if="1" @click="edit">Edit</button>
                 <!-- / -->
             </div>
             <!-- <div id="splitline" class="flex_col">
@@ -39,11 +38,10 @@
     </div> -->
             <!-- / -->
             <!-- body -->
-            <div id="body" class="flex_col">
+            <div id="body" class="flex_col" @click="click_body">
                 <!-- title_list -->
-                <div id="postblock" class="flex_col">
-                    ${content}
-
+                <div id="postblock" class="flex_col" v-html="content">
+                    <!-- ${content} -->
                 </div>
                 <!-- / -->
                 <!-- page_index -->

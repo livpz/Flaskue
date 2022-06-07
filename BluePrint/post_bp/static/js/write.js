@@ -6,7 +6,11 @@ const Index = {
             title: '',
             tags: [],
             date: '2022/06/12',
-            content: '<h4>Flask + vue</h4>'
+            content: '<h4>Flask + vue</h4>',
+            md_content: '',
+            show: true,
+            contentActive: 'block',
+            mdActive: 'none'
         }
     },
     methods: {
@@ -18,6 +22,7 @@ const Index = {
                 tags : vm.tags,
                 date : vm.date,
                 content : vm.content,
+                show: vm.show
             })
             .then(function (response) {
             console.log(response);
@@ -30,7 +35,8 @@ const Index = {
             let vm = this
             axios.get('/post/get_post/',{
                 params: {
-                post_id: vm.id
+                post_id: vm.id,
+                edit:1
                 }
               }).then(function (response) {
                 vm.title = response.data.title;
@@ -38,6 +44,30 @@ const Index = {
                 vm.date = response.data.date;
                 vm.content = response.data.content;
               })
+        },
+        change_show: function(){
+            let vm = this
+            vm.show = !vm.show
+        },
+        toMD: function(){
+            let vm = this
+            axios.post('/post/tomd/', {
+                content: vm.content,
+            })
+            .then(function (response) {
+            console.log(response);
+            vm.md_content = response.data.md_content
+            vm.contentActive = 'none'
+            vm.mdActive = 'block'
+            })
+            .catch(function (error) {
+            console.log(error);
+            });
+        },
+        toRaw: function(){
+            let vm = this
+            vm.contentActive = 'block'
+            vm.mdActive = 'none'
         }
     }
 }

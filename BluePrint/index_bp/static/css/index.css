@@ -1,4 +1,5 @@
 body{
+    font-family: 'Open Sans';
     background-color: #495464;
     display: flex;
     flex-direction: column;

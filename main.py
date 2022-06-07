@@ -1,4 +1,5 @@
 from flask import Flask, redirect, url_for
+from datetime import timedelta
 
 class App(object):
     app = None
@@ -8,6 +9,8 @@ class App(object):
     @classmethod
     def build_app(cls):
         cls.app = Flask(__name__)
+        cls.app.config['SECRET_KEY'] = '5da28c75-1199-49f7-a4db-bb9db1d6a6a3'
+        cls.app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=1) # 设置为1小时候过期
         app = cls.app
         @app.route('/')
         def index():

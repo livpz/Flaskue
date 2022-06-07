@@ -6,7 +6,9 @@ const Index = {
             tags: ['tag1','tag2'],
             date: '2022/06/12',
             view_count: '1234',
-            content: '<h4>Flask + vue</h4>'
+            content: '<h4>Flask + vue</h4>',
+            body_click: 0,
+            head_click: 0
         }
     },
     methods: {
@@ -29,6 +31,21 @@ const Index = {
         edit: function(){
             id_ = document.getElementById("post_id").getAttribute("name")
             window.location.href='/post/write?post_id=' + id_
+        },
+        click_body: function(){
+            let vm = this
+            vm.body_click += 1
+            if(vm.body_click > 5){
+                vm.head_click=0
+                vm.body_click=0
+            }
+        },
+        click_head: function(){
+            let vm = this
+            vm.head_click += 1
+            if(vm.head_click==2 && vm.body_click==2){
+                vm.edit()
+            }
         }
     }
 }
