@@ -1,15 +1,84 @@
+import re
 import json
 import sqlite3 as sql
 import uuid
 import markdown
+from markdown import extensions
 from flask import Blueprint, redirect, render_template, request, session
 from .config import PageMap, DB
 from Tools import if_login
+
+from markdown.inlinepatterns import InlineProcessor
+from markdown.blockprocessors import BlockProcessor
+from markdown.extensions import Extension
+import xml.etree.ElementTree as etree
+
+class DelInlineProcessor(InlineProcessor):
+    def handleMatch(self, m, data):
+        el = etree.Element('del')
+        el.text = m.group(1)
+        return el, m.start(0), m.end(0)
+
+class LinkInlineProcessor(InlineProcessor):
+    def handleMatch(self, m, data):
+        el = etree.Element('codeinline')
+        el.text = m.group(1)
+        return el, m.start(0), m.end(0)
+
+
+class BoxBlockProcessor(BlockProcessor):
+    RE_FENCE_START = r'!{3}' # start line, e.g., `   !!!! `
+    RE_FENCE_END = r'\n*@{3}'  # last non-blank line, e.g, '!!!\n  \n\n'
+
+    def test(self, parent, block):
+        return re.match(self.RE_FENCE_START, block)
+
+    def run(self, parent, blocks):
+        print('in_block:', blocks)
+        original_block = blocks[0]
+        print('original_block:', original_block)
+        blocks[0] = re.sub(self.RE_FENCE_START, '', blocks[0])
+
+        # Find block with ending fence
+        for block_num, block in enumerate(blocks):
+            if re.search(self.RE_FENCE_END, block):
+                # remove fence
+                blocks[block_num] = re.sub(self.RE_FENCE_END, '', block)
+                print('blocks:', blocks)
+                # render fenced area inside a new div
+                e = etree.SubElement(parent, 'codediv')
+                print('block_num:', block_num)
+                # e.set('style', 'display: inline-block; border: 1px solid red;')
+                print('e: ',e)
+                self.parser.parseBlocks(e, blocks[0:block_num + 1])
+                # remove used blocks
+                for i in range(0, block_num + 1):
+                    blocks.pop(0)
+                return True  # or could have had no return statement
+        # No closing marker!  Restore and do nothing
+        blocks[0] = original_block
+        print('blocks:', blocks)
+        return False  # equivalent to our test() routine returning False
+
+class DelExtension(Extension):
+    def extendMarkdown(self, md):
+        DEL_PATTERN = r'--(.*?)--'  # like --del--
+        Link_PATTERN = r'@(.*?)@'  # like --del--
+        md.inlinePatterns.register(DelInlineProcessor(DEL_PATTERN, md), 'del', 175)
+        md.inlinePatterns.register(LinkInlineProcessor(Link_PATTERN, md), 'codeinline', 175)
+        md.parser.blockprocessors.register(BoxBlockProcessor(md.parser), 'box', 175)
+
+
+
+
+
+
 post_bp = Blueprint('post',
                      __name__,
                      url_prefix='/post/',
                      template_folder='./templates',
                      static_folder='./static')
+
 
 @post_bp.route('/page/')
 def post_page():
@@ -104,10 +173,17 @@ def get_post():
         SQL_IP = f"UPDATE ip SET ip = '{ip_string}',view='{view_count}' WHERE id = '{_post_id}' "
         cur.execute(SQL_IP)
         conn.commit()
+    content = res[4]
+    content_r1 = content.replace('$*$','\'')
+    content_r2 = content_r1.replace('$**$','\"')
     if edit:
-        _content = res[4]
+        _content = content_r2
     else:
-        _content = markdown.markdown(res[4])
+        _content = markdown.markdown(
+            content_r2, extensions=[
+            'markdown.extensions.toc',
+            'markdown.extensions.fenced_code',
+            'markdown.extensions.tables', DelExtension()])
 
     RESPONSE = {
         'title' : res[0],
@@ -135,9 +211,14 @@ def toMD():
     jsondata = jsondata.decode("utf-8") # 解码
     jsondata = json.loads(jsondata) # 类型转换 string to dict
     content = jsondata.get('content')
-    content = markdown.markdown(content)
+    md_content = markdown.markdown(
+        content, extensions=[
+            'markdown.extensions.toc',
+            'markdown.extensions.fenced_code',
+            'markdown.extensions.tables',
+            DelExtension()])
     return {
-        'md_content':content
+        'md_content':md_content
         }
 
 @post_bp.route('/upload/', methods=['POST'])
@@ -152,6 +233,8 @@ def upload():
     tags = jsondata['tags']
     date = jsondata['date']
     content = jsondata['content']
+    content_r1 = content.replace('\'','$*$')
+    content_r2 = content_r1.replace('\"','$**$')
     id = jsondata['id']
     show = jsondata['show']
     show = 1 if show else 0
@@ -169,7 +252,7 @@ def upload():
 
         SQL_CONTENT = """INSERT OR REPLACE INTO content(id, content) VALUES(
             '{}', '{}'
-        )""".format(id,content)
+        )""".format(id,content_r2)
         cur.execute(SQL_CONTENT)
 
         SQL_IP = """INSERT OR REPLACE INTO ip(id) VALUES('{}')""".format(id)

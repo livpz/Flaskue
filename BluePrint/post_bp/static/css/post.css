@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'sourceCode';
+    src: url('/static/font/SourceCodePro-Regular.ttf');
+}
+
 
 body{
     font-family: 'Open Sans';
@@ -15,6 +20,7 @@ body{
     display: flex;
     flex-direction: column;
     border-radius: 5px;
+    padding-bottom: 20px;
 }
 
 #bottom{
@@ -39,11 +45,14 @@ body{
 }
 
 #body{
-    background-color: #ffffff;
+    background-color: #E8E8E8;
     width: 720px;
     min-height: 600px;
+    height: fit-content;
     border-radius: 3px;
     margin-top: 20px;
+    padding-top: 10px;
+    padding-bottom: 8px;
 }
 
 #page_index{
@@ -51,11 +60,12 @@ body{
 }
 
 #postblock{
-    width: 700px;
-    height: 500px;
+    width: 690px;
+    height: fit-content;
     margin-left: 10px;
     margin-right: 10px;
-    background-color: #BBBFCA;
+    background-color: #F4F4F2;
+    padding: 5px;
 }
 
 #input_area{
@@ -142,4 +152,61 @@ span{
 
 svg{
     margin:auto;
+}
+
+
+codeinline{
+    font-family: "sourceCode";
+    font-size: 14px;
+    background-color: #252523c2;
+    color: #96ff9a;
+    border-radius: 3px;
+    padding: 2px;
+    padding-right: 3px;
+    padding-left: 2px;
+    margin-right: 2px;
+    margin-left: 2px;
+}
+
+ul{
+    text-decoration: none;
+    list-style: '-';
+}
+
+a{
+    text-decoration: none;
+}
+
+a:link {
+    color:#0ca0db;
+}
+a:visited{
+    color:#0ca0db;
+}
+a:hover{
+    color: rgb(252, 124, 120);
+}
+blockquote{
+    font-family: "sourceCode";
+    border-left: solid #ffd04391 3px;
+    padding-left: 10px;
+    background-color: #ffc1071c;
+    margin-inline-start: 20px;
+    margin-top: 2px;
+    margin-bottom: 5px;
+    width: fit-content;
+}
+codediv{
+    display: block;
+    font-family: "sourceCode";
+    font-size: 14px;
+    background-color: #252523e6;
+    color: #96ff9a;
+    border-radius: 3px;
+    padding: 2px;
+    padding-right: 3px;
+    padding-left: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+    white-space: pre;
 }
