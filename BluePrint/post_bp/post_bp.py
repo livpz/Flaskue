@@ -12,6 +12,39 @@ from markdown.inlinepatterns import InlineProcessor
 from markdown.blockprocessors import BlockProcessor
 from markdown.extensions import Extension
 import xml.etree.ElementTree as etree
+from markdown.treeprocessors import Treeprocessor
+
+#  change img width
+class BootstrapTreeprocessor(Treeprocessor):
+    """
+    """
+
+    def run(self, node):
+        for child in node.getiterator():
+            # 如果是 table
+            if child.tag == 'img':
+                child.set("class", "img-width-200")
+            # elif child.tag == 'h2':
+            #     child.set("class", "h5 text-secondary mb-4")
+            # elif child.tag == 'img':
+            #    child.set("class","img-fluid")
+        return node
+
+
+class BootStrapExtension(Extension):
+    """
+    """
+
+    def extendMarkdown(self, md):
+        """
+        """
+        md.registerExtension(self)
+        self.processor = BootstrapTreeprocessor()
+        self.processor.md = md
+        self.processor.config = self.getConfigs()
+        md.treeprocessors.add('bootstrap', self.processor, '_end')
+#  change img width <<
+
 
 class DelInlineProcessor(InlineProcessor):
     def handleMatch(self, m, data):
@@ -27,16 +60,16 @@ class LinkInlineProcessor(InlineProcessor):
 
 
 class BoxBlockProcessor(BlockProcessor):
-    RE_FENCE_START = r'!{3}' # start line, e.g., `   !!!! `
+    RE_FENCE_START = r'@{3}' # start line, e.g., `   !!!! `
     RE_FENCE_END = r'\n*@{3}'  # last non-blank line, e.g, '!!!\n  \n\n'
 
     def test(self, parent, block):
         return re.match(self.RE_FENCE_START, block)
 
     def run(self, parent, blocks):
-        print('in_block:', blocks)
+        # print('in_block:', blocks)
         original_block = blocks[0]
-        print('original_block:', original_block)
+        # print('original_block:', original_block)
         blocks[0] = re.sub(self.RE_FENCE_START, '', blocks[0])
 
         # Find block with ending fence
@@ -44,12 +77,12 @@ class BoxBlockProcessor(BlockProcessor):
             if re.search(self.RE_FENCE_END, block):
                 # remove fence
                 blocks[block_num] = re.sub(self.RE_FENCE_END, '', block)
-                print('blocks:', blocks)
+                # print('blocks:', blocks)
                 # render fenced area inside a new div
                 e = etree.SubElement(parent, 'codediv')
-                print('block_num:', block_num)
+                # print('block_num:', block_num)
                 # e.set('style', 'display: inline-block; border: 1px solid red;')
-                print('e: ',e)
+                # print('e: ',e)
                 self.parser.parseBlocks(e, blocks[0:block_num + 1])
                 # remove used blocks
                 for i in range(0, block_num + 1):
@@ -57,7 +90,7 @@ class BoxBlockProcessor(BlockProcessor):
                 return True  # or could have had no return statement
         # No closing marker!  Restore and do nothing
         blocks[0] = original_block
-        print('blocks:', blocks)
+        # print('blocks:', blocks)
         return False  # equivalent to our test() routine returning False
 
 class DelExtension(Extension):
@@ -68,8 +101,13 @@ class DelExtension(Extension):
         md.inlinePatterns.register(LinkInlineProcessor(Link_PATTERN, md), 'codeinline', 175)
         md.parser.blockprocessors.register(BoxBlockProcessor(md.parser), 'box', 175)
 
-
-
+        #  change img width >>
+        md.registerExtension(self)
+        self.processor = BootstrapTreeprocessor()
+        self.processor.md = md
+        self.processor.config = self.getConfigs()
+        md.treeprocessors.add('bootstrap', self.processor, '_end')
+        #  change img width <<
 
 
 
@@ -113,9 +151,9 @@ def get_post_list():
     def icon(tags):
         tags = tags.split('/')
         icon = {
-            'python': '/index/static/img/icon_python.png',
-            'vue': '/index/static/img/icon_vue.png',
-            'flask': '/index/static/img/icon_flask.png'
+            'Python': '/index/static/img/icon_python.png',
+            'Vue': '/index/static/img/icon_vue.png',
+            'Flask': '/index/static/img/icon_flask.png'
         }
         out = [
             {
@@ -146,6 +184,7 @@ def get_post():
     _post_id = request.args.get('post_id')
     edit = request.args.get('edit')
     ip = request.remote_addr
+    print(f'\n_____post_id:{_post_id}\n')
 
     with sql.connect(DB.sqlite) as conn:
         cur = conn.cursor()
@@ -157,13 +196,13 @@ def get_post():
 
         SQL ="""SELECT title, tags, date, view, content, ip
         FROM (post LEFT JOIN content
-        ON post.id = post.id )
+        ON post.id = content.id )
         LEFT JOIN ip  ON ip.id = post.id
         WHERE post.id = '{}';""".format(_post_id)
 
         cur.execute(SQL)
         res = cur.fetchone()
-
+        print(f'\n_____res:{res}\n')
         ip_string = res[5]
         view_count = res[3]
         set_ip = set(ip_string.split('#'))
@@ -193,6 +232,26 @@ def get_post():
         'content': _content
     }
     return RESPONSE
+
+
+@post_bp.route('/taglist/')
+def taglist():
+    with sql.connect(DB.sqlite) as conn:
+        cur = conn.cursor()
+        SQL_SUM = "SELECT tags FROM post WHERE show IS 1"
+        cur.execute(SQL_SUM)
+        blog_sum = cur.fetchall()
+    tag_nums = {}
+    for tags, in blog_sum:
+        tags = tags.split('/')
+        for tag in tags:
+            if tag in tag_nums.keys():
+                tag_nums[tag] += 1
+            else:
+                tag_nums[tag] = 1
+    return {
+        'tag_nums': tag_nums
+    }
 
 
 @post_bp.route('/write/')
@@ -228,7 +287,7 @@ def upload():
     jsondata = request.get_data() # 此时格式为byte
     jsondata = jsondata.decode("utf-8") # 解码
     jsondata = json.loads(jsondata) # 类型转换 string to dict
-    print(jsondata)
+    print('\n__up__content:',jsondata)
     title = jsondata['title']
     tags = jsondata['tags']
     date = jsondata['date']

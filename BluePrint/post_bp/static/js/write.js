@@ -26,6 +26,7 @@ const Index = {
             })
             .then(function (response) {
             console.log(response);
+            window.location.href= '/index/'
             })
             .catch(function (error) {
             console.log(error);

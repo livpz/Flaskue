@@ -3,6 +3,12 @@
     src: url('/static/font/SourceCodePro-Regular.ttf');
 }
 
+
+@font-face {
+    font-family: 'Mufans';
+    src: url('/static/font/Mufanpfs.otf');
+}
+
 body{
     font-family: 'Open Sans';
     background-color: #495464;
@@ -49,7 +55,7 @@ body{
     min-height: 600px;
     height: fit-content;
     border-radius: 3px;
-    margin-top: 20px;
+    margin-top: 10px;
     padding-top: 10px;
     padding-bottom: 8px;
 }
@@ -146,6 +152,14 @@ body{
     margin-top: 10px;
     width: 600px;
     height: 40px;
+}
+
+.img-width-100{
+    width: 100px;
+}
+
+.FontMufans{
+    font-family: 'Mufans';
 }
 
 button{

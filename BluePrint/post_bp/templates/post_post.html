@@ -15,21 +15,38 @@
             <div id="head" class="flex_col" @click="click_head">
                 <!-- title -->
                 <div id="title" class="flex_col margin_left_3">
-                    <h2 class="flex_col"> ${title}</h2>
+                    <h2 class="flex_col"><a id="title_link" href="/index/"> ${title}</a></h2>
+                    <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="100%" color=#f44336 SIZE=3>
                 </div>
 
                 <!-- / -->
                 <!-- clickline -->
-                <div id="tags_line" class="flex_col margin_left_3">
-                    <span> ${tags}</span>
+                <div id="tags_line" class="flex_col margin_left_3 FontMufans">
+                    <span class="flex_row">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="color: #3e3d3de0; width: 20px; margin-right: 8px;" fill="currentColor" class="flex_row" viewBox="0 0 512 512">
+                        <!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                        <path d="M472.8 168.4C525.1 221.4 525.1 306.6 472.8 359.6L360.8 472.9C351.5 482.3 336.3 482.4 326.9 473.1C317.4 463.8 317.4 448.6 326.7 439.1L438.6 325.9C472.5 291.6 472.5 236.4 438.6 202.1L310.9 72.87C301.5 63.44 301.6 48.25 311.1 38.93C320.5 29.61 335.7 29.7 344.1 39.13L472.8 168.4zM.0003 229.5V80C.0003 53.49 21.49 32 48 32H197.5C214.5 32 230.7 38.74 242.7 50.75L410.7 218.7C435.7 243.7 435.7 284.3 410.7 309.3L277.3 442.7C252.3 467.7 211.7 467.7 186.7 442.7L18.75 274.7C6.743 262.7 0 246.5 0 229.5L.0003 229.5zM112 112C94.33 112 80 126.3 80 144C80 161.7 94.33 176 112 176C129.7 176 144 161.7 144 144C144 126.3 129.7 112 112 112z"/>
+                        </svg>
+                        <span class="flex_row">
+                        ${tags}
+                        </span>
+                    </span>
                 </div>
-                <div id="post_info" class="flex_col margin_left_3">
-                    <div id="date" class="flex_col">
+                <div id="post_info" class="flex_col margin_left_3 FontMufans">
+                    <div id="date" class="flex_row">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 8px;" fill="currentColor" class="bi bi-calendar2" viewBox="0 0 16 16">
+                            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H2z"/>
+                            <path d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V4z"/>
+                          </svg>
                         <span>${date}</span>
                     </div>
                 </div>
-                <div id="view" class="flex_row margin_left_3">
-                    <span>浏览次数 ${view_count}</span>
+                <div id="view" class="flex_row margin_left_3 FontMufans" >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"  style="color: #3e3d3de0; margin-right:8px;" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                      </svg>
+                    <span>${view_count}</span>
                 </div>
                 <!-- / -->
             </div>
@@ -47,11 +64,6 @@
                 <!-- page_index -->
                 <div id="page_index" class="flex_row">
                     <!-- <button>1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>4</button>
-            <button>5</button>
-            <button>6</button> -->
                 </div>
                 <!-- / -->
             </div>
@@ -63,9 +75,8 @@
         <div id="bottom" class="flex_col">
             <!-- log_info -->
             <div class="flex_row">
-                <span>博客共xx篇xxx字</span>
-                <span>访问量xx</span>
-                <span id="post_id" style="display: none;" name="{{ post_id }}"></span>
+                <!-- <span>访问量xx</span> -->
+            <span id="post_id" style="display: none;" name="{{ post_id }}"></span>
             </div>
             <!-- / -->
             <!-- beian -->

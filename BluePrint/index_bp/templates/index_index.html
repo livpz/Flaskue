@@ -20,8 +20,8 @@
         <!-- / -->
         <!-- clickline -->
         <div id="clickline" class="flex_row">
-            <button>标签</button>
-            <button @click="logout">搜索</button>
+            <button @click="showTags">${tag_or_time}</button>
+            <!-- <button @click="logout">搜索</button> -->
             <button>About</button>
         </div>
         <!-- / -->
@@ -30,7 +30,7 @@
     <!-- body -->
     <div id="body" class="flex_col">
         <!-- title_list -->
-        <div id="title_list" class="flex_col">
+        <div id="title_list" class="flex_col" v-bind:style="{'display' : title_list_Active}">
             <div class="flex_col">
             <span>2022</span>
             <span>_________</span>
@@ -55,6 +55,22 @@
             </div>
         </div>
         <!-- / -->
+        <!-- tag list -->
+        <div id="tag_body" class="flex_row" v-bind:style="{'display' : tag_list_Active}">
+            <div id="out_taglist" class="flex_row_wrap width640">
+                <div v-for="(t_value, t_key, t_index) in tag_nums" :value="t_key" class="flex_row tag_block" @click="click_tag">
+                    <span class="tag_key">${t_key}</span>
+                    <span class="tag_num">${t_value}</span>
+                </div>
+            </div>
+        </div>
+        <!-- / -->
+        <div id="tag_dict" class="flex_row" v-bind:style="{'display' : tag_dict_Active}">
+            <div id="" class="flex_col width640">
+                <div v-for="(d_value, d_key, d_index) in tagdict" :value="d_key" class="flex_row tag_block" @click="open_blogpage" :value="d_value.id">
+                </div>
+            </div>
+        </div>
         <!-- page_index -->
         <div id="page_index" class="flex_row">
             <div id="pageindex_line" class="flex_row">

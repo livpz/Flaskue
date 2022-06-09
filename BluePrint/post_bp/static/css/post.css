@@ -4,6 +4,11 @@
 }
 
 
+@font-face {
+    font-family: 'Mufans';
+    src: url('/static/font/Mufanpfs.otf');
+}
+
 body{
     font-family: 'Open Sans';
     background-color: #495464;
@@ -50,7 +55,7 @@ body{
     min-height: 600px;
     height: fit-content;
     border-radius: 3px;
-    margin-top: 20px;
+    margin-top: 10px;
     padding-top: 10px;
     padding-bottom: 8px;
 }
@@ -61,6 +66,7 @@ body{
 
 #postblock{
     width: 690px;
+    min-height: 500px;
     height: fit-content;
     margin-left: 10px;
     margin-right: 10px;
@@ -141,6 +147,13 @@ body{
     height: 40px;
 }
 
+.img-width-200{
+    width: 200px;
+}
+
+.FontMufans{
+    font-family: 'Mufans';
+}
 button{
     margin:auto;
 }
@@ -177,6 +190,14 @@ a{
     text-decoration: none;
 }
 
+#title_link:link{
+    color:#1d1d1d;
+}
+
+#title_link:visited{
+    color:#1d1d1d;
+}
+
 a:link {
     color:#0ca0db;
 }
@@ -187,7 +208,6 @@ a:hover{
     color: rgb(252, 124, 120);
 }
 blockquote{
-    font-family: "sourceCode";
     border-left: solid #ffd04391 3px;
     padding-left: 10px;
     background-color: #ffc1071c;

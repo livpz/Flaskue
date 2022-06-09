@@ -1,5 +1,4 @@
 from operator import index
-from xmlrpc.client import TRANSPORT_ERROR
 from flask import Blueprint, redirect, render_template, request, session, url_for
 from .config import PageMap
 
@@ -20,4 +19,5 @@ def index():
 def logout():
     session.clear()
     return redirect(url_for('index.index'))
+
 

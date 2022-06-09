@@ -2,11 +2,11 @@ const Index = {
     delimiters:['${','}'],
     data(){
         return {
-            title: 'Post 文章标题.',
-            tags: ['tag1','tag2'],
-            date: '2022/06/12',
-            view_count: '1234',
-            content: '<h4>Flask + vue</h4>',
+            title: '',
+            tags: [],
+            date: '',
+            view_count: '',
+            content: '',
             body_click: 0,
             head_click: 0
         }
@@ -22,7 +22,7 @@ const Index = {
               }).then(function (response) {
                 console.log(response);
                 vm.title = response.data.title;
-                vm.tags = response.data.tags;
+                vm.tags = response.data.tags.replaceAll('/',' / ');
                 vm.date = response.data.date;
                 vm.content = response.data.content;
                 vm.view_count = response.data.view_count;
@@ -43,7 +43,7 @@ const Index = {
         click_head: function(){
             let vm = this
             vm.head_click += 1
-            if(vm.head_click==2 && vm.body_click==2){
+            if(vm.head_click==1 && vm.body_click==2){
                 vm.edit()
             }
         }

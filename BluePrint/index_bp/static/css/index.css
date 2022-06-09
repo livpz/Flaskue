@@ -50,6 +50,50 @@ body{
     margin: auto;
     display: flex;
     flex-direction: row;
+
+}
+
+.width640{
+    width: 640px;
+}
+
+.tag_key{
+    background-color: #88FFF7;
+    min-width: 100px;
+    text-align: center;
+    border-radius: 3px;
+    border: solid #88FFF7;
+}
+
+.tag_num{
+  /* background-color: aquamarine; */
+  min-width: 20px;
+  text-align: center;
+}
+
+.tag_block{
+    border-radius: 3px;
+    background-color: #7DEDFF;
+    margin-top: 5px;
+    min-width: 150px;
+    height: 40px;
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+
+#out_taglist{
+    background-color: #96BAFF;
+    border-radius: 3px;
+    padding: 20px;
+    border: solid #7C83FD;
+}
+
+.flex_row_wrap{
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .margin_auto{
@@ -103,6 +147,8 @@ body{
     width: 600px;
     height: 40px;
 }
+
+
 
 button{
     margin:auto;
